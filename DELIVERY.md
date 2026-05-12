@@ -32,6 +32,54 @@
 - Файл-образец (`sample_file`).
 - Типы аномалий, если они нужны.
 
+#### Типы аномалий
+В блоке `anomalies` вы можете указать список искажений, которые будут внесены в данные. Доступны следующие типы:
+
+1. **Единичный всплеск (`statistical_spike`)**
+   - Создает аномальное значение в конкретной строке.
+   - Параметры: `column` (колонка), `position_row` (номер строки), `magnitude` (коэффициент отклонения).
+   - *Пример:*
+     ```yaml
+     - type: "statistical_spike"
+       column: "amount"
+       position_row: 5000
+       magnitude: 100.0
+     ```
+
+2. **Сезонный паттерн (`seasonal_pattern`)**
+   - Добавляет циклические колебания (синусоиду) к значениям.
+   - Параметры: `column`, `period` (период в строках), `magnitude` (амплитуда).
+   - *Пример:*
+     ```yaml
+     - type: "seasonal_pattern"
+       column: "amount"
+       period: 100
+       magnitude: 0.5
+     ```
+
+3. **Сдвиг тренда (`trend_shift`)**
+   - Изменяет уровень значений на определенном интервале.
+   - Параметры: `column`, `start_row` (начало), `end_row` (конец), `magnitude` (сила сдвига).
+   - *Пример:*
+     ```yaml
+     - type: "trend_shift"
+       column: "amount"
+       start_row: 2000
+       end_row: 4000
+       magnitude: 10.0
+     ```
+
+4. **Корреляция между колонками (`multi_column_correlation`)**
+   - Создает зависимость значений одной колонки от другой.
+   - Параметры: `column` (базовая), `target_column` (зависимая), `magnitude` (сила связи).
+   - *Пример:*
+     ```yaml
+     - type: "multi_column_correlation"
+       column: "amount"
+       target_column: "fee"
+       magnitude: 0.05
+     ```
+
 ### Шаг 3: Запуск программы
 
 #### В Windows:
